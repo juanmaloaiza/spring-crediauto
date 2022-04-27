@@ -31,11 +31,9 @@ class CustomerServiceTest {
     @BeforeEach
     void setUp() {
 
-        underTest = new CustomerServiceImpl(customerRepository);
 
-        customer = new Customer( "1103896799","Juan", "Loaiza", LocalDate.now(),
-                "Prueba", "098787554", CivilStatus.CASADO,
-                "11012124241", "Esposa");
+
+
 
 
     }

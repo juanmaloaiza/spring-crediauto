@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomerRepositoryTest {
 
     @Autowired
+    //todo mock repository
     private CustomerRepository underTest;
 
     @AfterEach
@@ -25,19 +26,10 @@ class CustomerRepositoryTest {
 
     @Test
     void existsByDocumentNumber() {
-        //given
-        String document="1103896799";
-        Customer customer = new Customer( "1103896799","Juan", "Loaiza",LocalDate.now(),
-                "Prueba", "098787554",CivilStatus.CASADO,
-                "11012124241", "Esposa");
-        underTest.save(customer);
-
-        //when
-        boolean expected= underTest.existsByDocumentNumber(document);
-
-        //then
-        assertThat(expected).isTrue();
+        //todo TDD probar metodo
     }
+
+
 
 
 }

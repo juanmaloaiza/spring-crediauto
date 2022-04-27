@@ -1,35 +1,33 @@
 package com.bancopichincha.credito.automotriz.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "cr_patio")
+@Table(name = "cr_patios")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Yard {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pat_id")
-    private Long id;
+@Data
+public class Yard extends BaseEntity implements Serializable {
 
-    @NotBlank
+    @NotNull
     @Column(name = "pat_nombre", length = 50)
     private String name;
 
-    @NotBlank
+    @NotNull
     @Column(name = "pat_direccion", length = 100)
     private String addres;
 
-    @NotBlank
+    @NotNull
     @Column(name = "pat_telefono", length = 20)
     private String phone;
 
-    @NotBlank
+    @NotNull
     @Column(name = "pat_punto_venta", length = 20)
-    private String numberPointOfSale;
+    private Integer numberPointOfSale;
 
 }

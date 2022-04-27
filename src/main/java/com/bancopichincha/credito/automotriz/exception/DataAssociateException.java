@@ -1,0 +1,11 @@
+package com.bancopichincha.credito.automotriz.exception;
+
+public class DataAssociateException extends Exception{
+
+    private static final String DESCRIPTION = "Información asociada";
+    private static final long serialVersionUID = 6830756676887746370L;
+
+    public DataAssociateException( String detail) {
+        super(DESCRIPTION + "." +detail);
+    }
+}
