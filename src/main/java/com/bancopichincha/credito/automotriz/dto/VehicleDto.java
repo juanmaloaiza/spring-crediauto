@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
@@ -15,24 +14,25 @@ import javax.validation.constraints.NotNull;
 @Data
 public class VehicleDto {
 
-    @NotBlank
+    private Long id;
+    @NotNull (message = "placa requerida")
     private String shield;
 
-    @NotBlank
+    @NotNull(message = "modelo requerido")
     private String model;
 
-    @NotBlank
+    @NotNull(message = "chasis requerido")
     private String chasisNumber;
 
     private String type;
-    @NotBlank
+    @NotNull(message = "cilindraje requerido")
     private String cilindraje;
-    @NotBlank
+    @NotNull(message = "avaluo requerido")
     private Double avaluo;
-    @NotBlank
+    @NotNull(message = "año requerido")
     private Integer year;
 
-    @NotNull
+    @NotNull (message = "estado requerido")
     @Enumerated(EnumType.STRING)
     private StatusVehicle status;
 
@@ -40,6 +40,7 @@ public class VehicleDto {
     private BrandDto brand;
 
     public VehicleDto(Vehicle vehicle) {
+        this.id=vehicle.getId();
         this.shield = vehicle.getShield();
         this.model = vehicle.getModel();
         this.chasisNumber = vehicle.getChasisNumber();
@@ -54,6 +55,7 @@ public class VehicleDto {
     public Vehicle toVehicle ()
     {
         Vehicle vehicle = new Vehicle();
+        vehicle.setId(getId());
         vehicle.setShield(getShield());
         vehicle.setModel(getModel());
         vehicle.setChasisNumber(getChasisNumber());
@@ -63,7 +65,6 @@ public class VehicleDto {
         vehicle.setAvaluo(getAvaluo());
         vehicle.setStatus(getStatus());
         vehicle.setBrand(getBrand().toBrand());
-
         return vehicle;
 
     }

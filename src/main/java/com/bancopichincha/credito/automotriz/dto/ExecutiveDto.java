@@ -1,29 +1,33 @@
 package com.bancopichincha.credito.automotriz.dto;
 
 import com.bancopichincha.credito.automotriz.domain.Executive;
-import com.bancopichincha.credito.automotriz.domain.Yard;
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ExecutiveDto extends PersonDto {
 
     @NotNull (message = "Celular requerido")
-    @Pattern(regexp = "", message = "Formato incorrecto")
+    @CsvBindByPosition(position = 6)
     private String cellPhone;
-    @NotNull (message = "Celular requerido")
-    private Yard yard;
+    @NotNull (message = "patio requerido")
+    @CsvBindByPosition(position = 7)
+    private YardDto yardDto;
+
+    private Long idYard;
 
     public ExecutiveDto(Executive executive) {
-        super (executive.getDocumentNumber(),executive.getFirstName(), executive.getLastName(), executive.getAge(),
+        super (executive.getId(),executive.getDocumentNumber(),executive.getFirstName(), executive.getLastName(), executive.getAge(),
                 executive.getAddress(), executive.getPhone());
         this.cellPhone = executive.getCellPhone();
-        this.yard = executive.getYard();
+        this.yardDto = new YardDto(executive.getYard());
     }
 
     public Executive toExecutive ()
@@ -36,7 +40,7 @@ public class ExecutiveDto extends PersonDto {
         executive.setAddress(this.getAddress());
         executive.setPhone(this.getPhone());
         executive.setCellPhone(this.cellPhone);
-        executive.setYard(this.yard);
+        //executive.setYard(this.yardDto.toYard());
         return executive;
     }
 

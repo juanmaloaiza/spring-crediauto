@@ -21,6 +21,7 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({
             NotFoundException.class,
+            CustomerNotFoundException.class
 
     })
     @ResponseBody
@@ -48,6 +49,7 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             BadRequestException.class,
+            DataAssociateException.class,
             org.springframework.dao.DuplicateKeyException.class,
             org.springframework.web.HttpRequestMethodNotSupportedException.class,
             org.springframework.http.converter.HttpMessageNotReadableException.class
@@ -67,6 +69,16 @@ public class ApiExceptionHandler {
     public ErrorMessage exception(Exception exception) {
         LogManager.getLogger(this.getClass()).debug(">>> EXCEPTION  ..." + exception.toString());
         return new ErrorMessage("Server Error. " + exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler({
+            NotContentException.class
+
+    })
+    @ResponseBody
+    public ErrorMessage notContentRequest(HttpServletRequest request, Exception exception) {
+        return new ErrorMessage(exception, request.getRequestURI());
     }
 
 }

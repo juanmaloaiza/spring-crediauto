@@ -36,21 +36,32 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerDto save (@Validated @RequestBody CustomerDto customerDto)
+    public ResponseEntity<CustomerDto> save (@Validated @RequestBody CustomerDto customerDto)
             throws BadRequestException {
-        return this.customerService.addCustomer(customerDto);
+        CustomerDto saved = this.customerService.addCustomer(customerDto);
+
+        if (saved==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(saved,HttpStatus.CREATED);
 
     }
 
     @PutMapping("{customer-id}")
-    public CustomerDto update (@PathVariable (value = "customer-id") Long customerId,
+    public ResponseEntity<CustomerDto> update (@PathVariable (value = "customer-id") Long customerId,
                                @Validated @RequestBody CustomerDto customerDto) throws CustomerNotFoundException {
-        return customerService.updateCustomer(customerId,customerDto);
+        CustomerDto updated= customerService.updateCustomer(customerId,customerDto);
+        if (updated==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(updated,HttpStatus.OK);
     }
 
-    @DeleteMapping("{customer-id}")
-    public void deleteById (@PathVariable (value="customer-id") Long customerId) throws DataAssociateException, CustomerNotFoundException {
-        this.customerService.deleteCustomer(customerId);
+    @DeleteMapping("customer-id")
+    public ResponseEntity<?> deleteById (@PathVariable (value = "customer-id") Long yardId)
+            throws  DataAssociateException, CustomerNotFoundException {
+        customerService.deleteCustomer(yardId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

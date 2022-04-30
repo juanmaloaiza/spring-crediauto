@@ -32,6 +32,18 @@ public class VehicleController {
         return new ResponseEntity<>(this.vehicleService.getAllVehicle(), HttpStatus.OK);
     }
 
+
+    @GetMapping("/findByBrand")
+    public ResponseEntity<List<VehicleDto>> findByBrandOrYearOrModel(
+            @RequestParam(name = "brand") String brand,
+            @RequestParam(name = "year") Integer year,
+            @RequestParam (name ="model") String model
+    )
+    {
+        log.debug("Busqueda de vehiculos Endpoint GET: /api/vehiculos/findByBrand" );
+        return new ResponseEntity<>(this.vehicleService.findByBrandOrModelOrYear(brand,model,year), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity <VehicleDto> save (@Validated @RequestBody VehicleDto vehicleDto) throws BadRequestException {
         return vehicleService.addVehicle(vehicleDto)
@@ -40,7 +52,7 @@ public class VehicleController {
     }
     @PutMapping("{veh-id}")
     public ResponseEntity<VehicleDto> update( @PathVariable(value="veh-id") Long vehicleId,
-                                           @Validated @RequestBody VehicleDto vehicleDto) throws NotFoundException {
+                                           @Validated @RequestBody VehicleDto vehicleDto) throws NotFoundException, DataAssociateException {
         return vehicleService.updateVehicle(vehicleId,vehicleDto)
                 .map(yard -> new ResponseEntity<>(yard, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -51,6 +63,7 @@ public class VehicleController {
         vehicleService.deleteVehicle(vehicleId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 

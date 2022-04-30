@@ -1,35 +1,45 @@
 package com.bancopichincha.credito.automotriz.dto;
 
 import com.bancopichincha.credito.automotriz.domain.Yard;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class YardDto {
 
+    private Long id;
+    @NotNull(message = "Nombre requerido" )
+    @CsvBindByPosition(position = 0)
     private String name;
 
-    @NotBlank
-    @Column(name = "pat_direccion", length = 100)
-    private String addres;
+    @NotNull(message = "Direccion requerido" )
+    @CsvBindByPosition(position = 1)
+    private String address;
 
-    @NotBlank
-    @Column(name = "pat_telefono", length = 20)
+    @NotNull(message = "telefono requerido" )
+    @CsvBindByPosition(position = 2)
     private String phone;
 
-    @NotBlank
-    @Column(name = "pat_punto_venta", length = 20)
+    @NotNull(message = "Numero punto venta requerido" )
+    @CsvBindByPosition(position = 3)
     private Integer numberPointOfSale;
 
+
+
     public YardDto(Yard yard) {
+        this.id=yard.getId();
         this.name = yard.getName();
-        this.addres = yard.getAddres();
+        this.address = yard.getAddress();
         this.phone = yard.getPhone();
         this.numberPointOfSale = yard.getNumberPointOfSale();
     }
@@ -37,9 +47,10 @@ public class YardDto {
     public Yard toYard ()
     {
         Yard yard = new Yard();
-        yard.setName(this.getName());
+        yard.setId(getId());
+        yard.setName(getName());
+        yard.setAddress(this.getAddress());
         yard.setPhone(this.getPhone());
-        yard.setAddres(this.getAddres());
         yard.setNumberPointOfSale(this.getNumberPointOfSale());
         return yard;
     }

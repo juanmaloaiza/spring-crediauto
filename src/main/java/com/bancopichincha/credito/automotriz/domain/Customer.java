@@ -2,17 +2,21 @@ package com.bancopichincha.credito.automotriz.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.opencsv.bean.CsvDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.Date;
 
 @Entity
 @Table (name="cr_clientes")
+@SQLDelete(sql = "UPDATE cr_clientes SET  cli_eliminado=true WHERE id =?")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -20,7 +24,8 @@ public class Customer extends Person implements Serializable {
 
 
     @Column (name = "cli_fechaNacimiento")
-    private LocalDate birthDate;
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -35,9 +40,16 @@ public class Customer extends Person implements Serializable {
     @NotNull
     private String fullNameWife;
 
+    @Column(name = "cli_eliminado")
+    private Boolean delete = Boolean.FALSE;
+
+
+    @Column(name = "cli_sujeto_credito")
+    private Boolean verifyCredit = Boolean.TRUE;
+
     public Customer(String documentNumber, String firstName,
                     String lastName, String address, String phone,
-                    LocalDate birthDate, Integer age, CivilStatus civilStatus,
+                    Date birthDate, Integer age, CivilStatus civilStatus,
                     String documentNumberWife, String fullNameWife) {
         super(documentNumber, firstName, lastName, address, phone, age);
         this.birthDate = birthDate;

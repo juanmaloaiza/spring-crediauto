@@ -1,5 +1,6 @@
 package com.bancopichincha.credito.automotriz.dto;
 
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,20 +14,29 @@ import java.time.LocalDate;
 @Data
 public class PersonDto {
 
+    private Long id;
+
     @NotNull (message = "Numero documento requerido")
+    @CsvBindByPosition(position = 0)
     private String documentNumber;
 
     @NotNull (message = "nombres son requerido")
+    @CsvBindByPosition(position = 1)
     private String firstName;
 
-    @NotNull (message = "nombres son requerido")
+    @NotNull (message = "apellidos son requerido")
+    @CsvBindByPosition(position = 2)
     private String lastName;
 
+    @NotNull(message = "edad requerido")
+    @CsvBindByPosition(position = 3)
     private Integer age;
 
-    @NotBlank
+    @NotNull(message = "direccion requerida")
+    @CsvBindByPosition(position = 4)
     private String address;
 
-    @NotBlank
+    @NotNull (message = "telefono requerido")
+    @CsvBindByPosition(position = 5)
     private String phone;
 }
